@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tashveer/screens/homepage_screen.dart';
+
+import 'auth/screens/login_screen.dart';
 
 void main() => runApp(const MyApp());
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
           secondary: Colors.amber,
         ),
       ),
-      home: HomepageScreen(),
+      home: const LoginScreen(),
     );
   }
 }
