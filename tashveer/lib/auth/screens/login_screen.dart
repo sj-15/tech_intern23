@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tashveer/auth/screens/signin_page.dart';
 import 'package:tashveer/auth/screens/signup_page.dart';
+import 'package:tashveer/auth/service/auth_service.dart';
 import 'package:tashveer/common/widgets/circle_icon.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -146,10 +147,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 12,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    CircleIcon(imagePath: 'assets/google.png'),
-                    CircleIcon(imagePath: 'assets/fb.png'),
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircleIcon(
+                      imagePath: 'assets/google.png',
+                      onTap: () => AuthService().signInWithGoogle(),
+                    ),
+                    CircleIcon(
+                      imagePath: 'assets/fb.png',
+                      onTap: () {},
+                    ),
                   ],
                 ),
               ],

@@ -1,13 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
+import 'package:tashveer/screens/fullscreenphoto.dart';
 
-class HomepageScreen extends StatelessWidget {
+class HomepageScreen extends StatefulWidget {
   final List<DateTime> sortedDates;
 
   HomepageScreen({Key? key})
       : sortedDates = [
+          DateTime(2023, 03, 17),
           DateTime(2023, 03, 15),
           DateTime(2023, 03, 07),
           DateTime(2022, 11, 08),
@@ -16,8 +19,57 @@ class HomepageScreen extends StatelessWidget {
         super(key: key);
 
   @override
+  State<HomepageScreen> createState() => _HomepageScreenState();
+}
+
+class _HomepageScreenState extends State<HomepageScreen> {
+  bool isFavourite = false;
+  void signOut() {
+    FirebaseAuth.instance.signOut();
+  }
+
+  void onClose() {
+    Navigator.pop(context);
+  }
+
+  void onToggleFavourite() {
+    if (mounted) {
+      setState(() {
+        isFavourite = !isFavourite;
+      });
+    }
+  }
+
+  void onDelete() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete photo'),
+        content: const Text('Are you sure you want to delete this photo?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              onDelete();
+            },
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final photoList = {
+      DateTime(2023, 03, 17): [
+        'assets/photo10.jpg',
+        'assets/photo11.jpg',
+      ],
       DateTime(2023, 03, 15): [
         'assets/photo1.JPG',
         'assets/photo2.JPG',
@@ -44,13 +96,22 @@ class HomepageScreen extends StatelessWidget {
             color: Colors.black,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: signOut,
+            icon: const Icon(
+              Icons.logout_outlined,
+              color: Colors.black,
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: ListView.builder(
-          itemCount: sortedDates.length,
+          itemCount: widget.sortedDates.length,
           itemBuilder: (context, index) {
-            DateTime date = sortedDates[index];
+            DateTime date = widget.sortedDates[index];
             List<String> photos = photoList[date]!;
             DateFormat formatter = DateFormat('dd MMM yy');
             String dateString = DateFormat('yyyy-MM-dd')
@@ -85,13 +146,30 @@ class HomepageScreen extends StatelessWidget {
                   itemCount: photos.length,
                   itemBuilder: (context, index) {
                     String photo = photos[index];
-                    return Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(photo),
-                          fit: BoxFit.cover,
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FullScreenPhoto(
+                              isFavourite: isFavourite,
+                              onClose: onClose,
+                              onDelete: onDelete,
+                              onEdit: () {},
+                              onToggleFavourite: onToggleFavourite,
+                              photoUrl: photo,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(photo),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
-                        borderRadius: BorderRadius.circular(8.0),
                       ),
                     );
                   },
@@ -100,8 +178,8 @@ class HomepageScreen extends StatelessWidget {
                           ? 1
                           : (index == photos.length ~/ 2 ? 2 : 1),
                       1),
-                  mainAxisSpacing: 4.0,
-                  crossAxisSpacing: 4.0,
+                  mainAxisSpacing: 3.0,
+                  crossAxisSpacing: 3.0,
                 ),
               ],
             );

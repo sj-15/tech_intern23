@@ -3,7 +3,7 @@ import 'package:tashveer/common/widgets/text_input_field.dart';
 import 'package:tashveer/screens/homepage_screen.dart';
 
 import '../../common/widgets/snackbar.dart';
-import '../controller/auth_methods.dart';
+import '../method/auth_methods.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
