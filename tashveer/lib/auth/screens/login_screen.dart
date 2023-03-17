@@ -23,18 +23,18 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Text('Add your '),
                 Image.asset(
                   'assets/tashveer.png',
                   // color: Colors.,
                   height: size.height * 0.15,
                   alignment: Alignment.topCenter,
                 ),
-                const Text('Add your tashveer'),
                 const SizedBox(
                   height: 20,
                 ),
                 const Text(
-                  'Welcome',
+                  'W E L C O M E',
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
@@ -113,28 +113,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 12,
                 ),
                 isSignInSelected ? const SignInPage() : const SignUpPage(),
-                InkWell(
-                  onTap: () {},
-                  child: Container(
-                    width: size.width * 0.8,
-                    height: 50,
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: const Color(0xFFB8BFC0).withOpacity(0.8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        isSignInSelected ? 'Sign In' : 'Sign Up',
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
                 const SizedBox(
                   height: 12,
                 ),

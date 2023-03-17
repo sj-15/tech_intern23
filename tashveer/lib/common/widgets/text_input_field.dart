@@ -43,6 +43,7 @@ class TextInputField extends StatelessWidget {
       style: const TextStyle(color: Colors.black),
       obscureText: isPassword,
       keyboardType: textInputType,
+      controller: controller,
     );
   }
 }
