@@ -1,8 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
 class FullScreenPhoto extends StatelessWidget {
-  final String photoUrl;
+  final Uint8List photoUrl;
   final VoidCallback onClose;
   final bool isFavourite;
   final VoidCallback onToggleFavourite;
@@ -26,7 +28,7 @@ class FullScreenPhoto extends StatelessWidget {
       body: Stack(
         children: [
           Center(
-            child: Image.asset(
+            child: Image.memory(
               photoUrl,
               alignment: Alignment.center,
             ),
@@ -57,7 +59,9 @@ class FullScreenPhoto extends StatelessWidget {
                         ),
                         IconButton(
                           onPressed: () {
-                            Share.share(photoUrl);
+                            Share.share(
+                              String.fromCharCodes(photoUrl),
+                            );
                           },
                           icon: const Icon(
                             Icons.share,
