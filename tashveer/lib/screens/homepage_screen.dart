@@ -27,7 +27,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> screens = [
-      BuildPhotosScreen(),
+      const BuildPhotosScreen(),
       buildFavoritesScreen(),
       const BuildProfileScreen()
     ];

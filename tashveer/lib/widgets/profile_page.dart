@@ -1,23 +1,40 @@
 import 'package:flutter/material.dart';
 
-class BuildProfileScreen extends StatefulWidget {
+class BuildProfileScreen extends StatelessWidget {
   const BuildProfileScreen({super.key});
 
   @override
-  State<BuildProfileScreen> createState() => _BuildProfileScreenState();
-}
-
-class _BuildProfileScreenState extends State<BuildProfileScreen> {
-  @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          Text(
-            'name',
+    const int weeksInYear = 52;
+    const double squareSize = 15.0;
+    const double spacing = 2.0;
+
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Column(
+        children: [
+          const Text(
+            'Name',
             style: TextStyle(color: Colors.white),
+          ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(
+                weeksInYear,
+                (weekIndex) => Column(
+                  children: List.generate(
+                    7,
+                    (dayIndex) => Container(
+                      width: squareSize,
+                      height: squareSize,
+                      margin: const EdgeInsets.all(spacing),
+                      color: Colors.grey[300],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

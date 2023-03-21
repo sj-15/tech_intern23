@@ -1,3 +1,5 @@
+// import 'dart:io';
+// import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
 import '../screens/fullscreenphoto.dart';
+// import '../services/gdrive.dart';
 
 class BuildPhotosScreen extends StatefulWidget {
   const BuildPhotosScreen({Key? key}) : super(key: key);
@@ -16,6 +19,7 @@ class BuildPhotosScreen extends StatefulWidget {
 }
 
 class _BuildPhotosScreenState extends State<BuildPhotosScreen> {
+  // final drive = GoogleDrive();
   final picker = ImagePicker();
   bool isFavourite = false;
   DateTime? lastDate;
@@ -60,7 +64,9 @@ class _BuildPhotosScreenState extends State<BuildPhotosScreen> {
   pickImage(ImageSource source) async {
     XFile? file = await picker.pickImage(source: source);
     if (file != null) {
-      return await file.readAsBytes();
+      Uint8List bytes = await file.readAsBytes();
+      // await drive.upload(file as File);
+      return bytes;
     }
     // print('No Image Selected');
   }
