@@ -7,7 +7,7 @@ import 'join_room.dart';
 
 class MainMenuScreen extends StatelessWidget {
   static String routeName = '/main-menu';
-  const MainMenuScreen({super.key});
+  const MainMenuScreen({Key? key}) : super(key: key);
 
   void createroom(BuildContext context) {
     Navigator.pushNamed(context, CreateRoomScreen.routeName);

@@ -42,26 +42,91 @@ io.on("connection", function (socket) {
 
           case 9:
             room = _context.sent;
-            console.log(room);
             roomId = room._id.toString();
             socket.join(roomId); // io -> send data to everyone
             // socket -> sending data to yourself
 
             io.to(roomId).emit("createRoomSuccess", room);
-            _context.next = 19;
+            _context.next = 18;
             break;
 
-          case 16:
-            _context.prev = 16;
+          case 15:
+            _context.prev = 15;
             _context.t0 = _context["catch"](2);
             console.log(_context.t0);
 
-          case 19:
+          case 18:
           case "end":
             return _context.stop();
         }
       }
-    }, null, null, [[2, 16]]);
+    }, null, null, [[2, 15]]);
+  });
+  socket.on("joinRoom", function _callee2(_ref2) {
+    var nickname, roomId, room, player;
+    return regeneratorRuntime.async(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            nickname = _ref2.nickname, roomId = _ref2.roomId;
+            _context2.prev = 1;
+
+            if (roomId.match(/^[0-9a-fA-F]{24}$/)) {
+              _context2.next = 5;
+              break;
+            }
+
+            socket.emit("errorOccurred", "Please enter a valid room Id");
+            return _context2.abrupt("return");
+
+          case 5:
+            _context2.next = 7;
+            return regeneratorRuntime.awrap(Room.findById(roomId));
+
+          case 7:
+            room = _context2.sent;
+
+            if (!room.isJoin) {
+              _context2.next = 20;
+              break;
+            }
+
+            player = {
+              nickname: nickname,
+              socketId: socket.id,
+              playerType: "O"
+            };
+            socket.join(roomId);
+            room.players.push(player);
+            room.isJoin = false;
+            _context2.next = 15;
+            return regeneratorRuntime.awrap(room.save());
+
+          case 15:
+            room = _context2.sent;
+            io.to(roomId).emit("joinRoomSuccess", room);
+            io.to(roomId).emit("updatePlayersState", room.players);
+            _context2.next = 21;
+            break;
+
+          case 20:
+            socket.emit("errorOccurred", "Room full, try again later");
+
+          case 21:
+            _context2.next = 26;
+            break;
+
+          case 23:
+            _context2.prev = 23;
+            _context2.t0 = _context2["catch"](1);
+            console.log(_context2.t0);
+
+          case 26:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, null, null, [[1, 23]]);
   });
 });
 mongoose.connect(db).then(function () {
