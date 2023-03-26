@@ -6,6 +6,7 @@ import 'package:tictactoe/screens/game_screen.dart';
 class SocketMethods {
   final _socketClient = SocketClient.instance.socket!;
   Socket get socketClient => _socketClient;
+
   void createRoom(String nickname) {
     if (nickname.isNotEmpty) {
       _socketClient.emit('createRoom', {
@@ -14,7 +15,7 @@ class SocketMethods {
     }
   }
 
-  void createRoomSuccessListner(BuildContext context) {
+  void createRoomSuccessListener(BuildContext context) {
     _socketClient.on('createRoomSuccess', (room) {
       Navigator.pushNamed(context, GameScreen.routeName);
     });
