@@ -31,7 +31,7 @@ io.on("connection", function (socket) {
             // room is created
             room = new Room();
             player = {
-              socketID: socket.id,
+              socketId: socket.id,
               nickname: nickname,
               playerType: "X"
             };
