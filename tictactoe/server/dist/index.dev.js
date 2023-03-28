@@ -87,7 +87,7 @@ io.on("connection", function (socket) {
             room = _context2.sent;
 
             if (!room.isJoin) {
-              _context2.next = 20;
+              _context2.next = 21;
               break;
             }
 
@@ -106,27 +106,28 @@ io.on("connection", function (socket) {
             room = _context2.sent;
             io.to(roomId).emit("joinRoomSuccess", room);
             io.to(roomId).emit("updatePlayersState", room.players);
-            _context2.next = 21;
+            io.to(roomId).emit("updateRoom", room);
+            _context2.next = 22;
             break;
-
-          case 20:
-            socket.emit("errorOccurred", "Room full, try again later");
 
           case 21:
-            _context2.next = 26;
+            socket.emit("errorOccurred", "Room full, try again later");
+
+          case 22:
+            _context2.next = 27;
             break;
 
-          case 23:
-            _context2.prev = 23;
+          case 24:
+            _context2.prev = 24;
             _context2.t0 = _context2["catch"](1);
             console.log(_context2.t0);
 
-          case 26:
+          case 27:
           case "end":
             return _context2.stop();
         }
       }
-    }, null, null, [[1, 23]]);
+    }, null, null, [[1, 24]]);
   });
 });
 mongoose.connect(db).then(function () {

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tictactoe/resources/socket_methods.dart';
+import 'package:tictactoe/responsive/responsive.dart';
+import 'package:tictactoe/views/waititng_lobby.dart';
 
 import '../provider/room_data_provider.dart';
+import '../views/score_board.dart';
+import '../views/tictactoe_board.dart';
 
 class GameScreen extends StatefulWidget {
   static String routeName = '/game-screen';
@@ -12,13 +17,31 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
+  final SocketMethods _socketMethods = SocketMethods();
+
+  @override
+  void initState() {
+    super.initState();
+    _socketMethods.updateRoomListener(context);
+    _socketMethods.updatePlayersStateListener(context);
+  }
+
   @override
   Widget build(BuildContext context) {
+    RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
     return Scaffold(
-      body: Center(
-        child: Text(
-          Provider.of<RoomDataProvider>(context).roomdata.toString(),
-        ),
+      body: Responsive(
+        child: roomDataProvider.roomdata['isJoin']
+            ? const WaitingLobby()
+            : SafeArea(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    ScoreBoard(),
+                    TicTacToeBoard(),
+                  ],
+                ),
+              ),
       ),
     );
   }

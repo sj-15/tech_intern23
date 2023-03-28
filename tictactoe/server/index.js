@@ -58,6 +58,8 @@ io.on("connection", (socket) => {
         room = await room.save();
         io.to(roomId).emit("joinRoomSuccess", room);
         io.to(roomId).emit("updatePlayersState", room.players);
+        io.to(roomId).emit("updateRoom", room);
+
       }
       else {
         socket.emit("errorOccurred", "Room full, try again later");
