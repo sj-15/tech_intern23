@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:tictactoe/provider/room_data_provider.dart';
+import 'package:tictactoe/resources/game_method.dart';
 import 'package:tictactoe/resources/socket_client.dart';
 import 'package:tictactoe/screens/game_screen.dart';
 import 'package:tictactoe/utils/utils.dart';
@@ -83,6 +84,26 @@ class SocketMethods {
         data['choice'],
       );
       roomDataProvider.updateRoomData(data['room']);
+      GameMethods().checkWinner(context, _socketClient);
+    });
+  }
+
+  void pointIncreaseListener(BuildContext context) {
+    _socketClient.on('pointIncrease', (playerData) {
+      var roomDataProvider =
+          Provider.of<RoomDataProvider>(context, listen: false);
+      if (playerData['socketId'] == roomDataProvider.player1.socketId) {
+        roomDataProvider.updatePlayer1Data(playerData);
+      } else {
+        roomDataProvider.updatePlayer2Data(playerData);
+      }
+    });
+  }
+
+  void endGameListener(BuildContext context) {
+    _socketClient.on('endGame', (playerData) {
+      showGameDialog(context, '${playerData['nickname']} won the game!');
+      Navigator.popUntil(context, (route) => false);
     });
   }
 }

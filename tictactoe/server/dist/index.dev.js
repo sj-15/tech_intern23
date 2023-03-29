@@ -177,6 +177,50 @@ io.on("connection", function (socket) {
       }
     }, null, null, [[1, 13]]);
   });
+  socket.on("winner", function _callee4(_ref4) {
+    var winnerSocketId, roomId, room, player;
+    return regeneratorRuntime.async(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            winnerSocketId = _ref4.winnerSocketId, roomId = _ref4.roomId;
+            _context4.prev = 1;
+            _context4.next = 4;
+            return regeneratorRuntime.awrap(Room.findById(roomId));
+
+          case 4:
+            room = _context4.sent;
+            player = room.players.find(function (playerr) {
+              return playerr.socketId == winnerSocketId;
+            });
+            player.points += 1;
+            _context4.next = 9;
+            return regeneratorRuntime.awrap(room.save());
+
+          case 9:
+            room = _context4.sent;
+
+            if (player.points >= room.maxRounds) {
+              io.to(roomId).emit("endGame", player);
+            } else {
+              io.to(roomId).emit("pointIncrease", player);
+            }
+
+            _context4.next = 16;
+            break;
+
+          case 13:
+            _context4.prev = 13;
+            _context4.t0 = _context4["catch"](1);
+            console.log(_context4.t0);
+
+          case 16:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, null, null, [[1, 13]]);
+  });
 });
 mongoose.connect(db).then(function () {
   console.log("DB Connected");

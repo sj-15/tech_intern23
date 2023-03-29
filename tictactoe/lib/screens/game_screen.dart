@@ -24,6 +24,8 @@ class _GameScreenState extends State<GameScreen> {
     super.initState();
     _socketMethods.updateRoomListener(context);
     _socketMethods.updatePlayersStateListener(context);
+    _socketMethods.pointIncreaseListener(context);
+    _socketMethods.endGameListener(context);
   }
 
   @override
@@ -37,9 +39,11 @@ class _GameScreenState extends State<GameScreen> {
             : SafeArea(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: const [
-                    ScoreBoard(),
-                    TicTacToeBoard(),
+                  children: [
+                    const ScoreBoard(),
+                    const TicTacToeBoard(),
+                    Text(
+                        '${roomDataProvider.roomdata['turn']['nickname']}\'s turn'),
                   ],
                 ),
               ),

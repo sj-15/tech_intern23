@@ -73,12 +73,11 @@ io.on("connection", (socket) => {
     try {
       let room = await Room.findById(roomId);
       let choice = room.turn.playerType;
-      if(room.turnIndex == 0)
-      {
+      if (room.turnIndex == 0) {
         room.turn = room.players[1];
         room.turnIndex = 1;
       }
-      else{
+      else {
         room.turn = room.players[0];
         room.turnIndex = 0;
 
@@ -89,7 +88,27 @@ io.on("connection", (socket) => {
         choice,
         room,
       });
-     } catch (e) {
+    } catch (e) {
+      console.log(e);
+    }
+  });
+
+  socket.on("winner", async ({ winnerSocketId, roomId }) => {
+    try {
+      let room = await Room.findById(roomId);
+      let player = room.players.find((playerr) => playerr.socketId == winnerSocketId);
+      player.points += 1;
+      room = await room.save();
+
+      if(player.points >= room.maxRounds)
+      {
+        io.to(roomId).emit("endGame", player);
+      }
+      else
+      {
+        io.to(roomId).emit("pointIncrease", player);
+      }
+    } catch (e) {
       console.log(e);
     }
   });
