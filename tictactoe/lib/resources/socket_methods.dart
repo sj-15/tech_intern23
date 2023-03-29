@@ -27,6 +27,15 @@ class SocketMethods {
     }
   }
 
+  void tapGrid(int index, String roomId, List<String> displayElements) {
+    if (displayElements[index] == '') {
+      _socketClient.emit('tap', {
+        'index': index,
+        'roomId': roomId,
+      });
+    }
+  }
+
   void createRoomSuccessListener(BuildContext context) {
     _socketClient.on('createRoomSuccess', (room) {
       Provider.of<RoomDataProvider>(context, listen: false)
@@ -62,6 +71,18 @@ class SocketMethods {
     _socketClient.on('updateRoom', (data) {
       Provider.of<RoomDataProvider>(context, listen: false)
           .updateRoomData(data);
+    });
+  }
+
+  void tappedListener(BuildContext context) {
+    _socketClient.on('tapped', (data) {
+      RoomDataProvider roomDataProvider =
+          Provider.of<RoomDataProvider>(context, listen: false);
+      roomDataProvider.updateDisplayElements(
+        data['index'],
+        data['choice'],
+      );
+      roomDataProvider.updateRoomData(data['room']);
     });
   }
 }

@@ -29,5 +29,5 @@ var roomSchema = new mongoose.Schema({
     "default": 0
   }
 });
-var roomModel = mongoose.model('Room', roomSchema);
+var roomModel = mongoose.model("Room", roomSchema);
 module.exports = roomModel;

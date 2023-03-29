@@ -129,6 +129,54 @@ io.on("connection", function (socket) {
       }
     }, null, null, [[1, 24]]);
   });
+  socket.on("tap", function _callee3(_ref3) {
+    var index, roomId, room, choice;
+    return regeneratorRuntime.async(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            index = _ref3.index, roomId = _ref3.roomId;
+            _context3.prev = 1;
+            _context3.next = 4;
+            return regeneratorRuntime.awrap(Room.findById(roomId));
+
+          case 4:
+            room = _context3.sent;
+            choice = room.turn.playerType;
+
+            if (room.turnIndex == 0) {
+              room.turn = room.players[1];
+              room.turnIndex = 1;
+            } else {
+              room.turn = room.players[0];
+              room.turnIndex = 0;
+            }
+
+            _context3.next = 9;
+            return regeneratorRuntime.awrap(room.save());
+
+          case 9:
+            room = _context3.sent;
+            io.to(roomId).emit("tapped", {
+              index: index,
+              choice: choice,
+              room: room
+            });
+            _context3.next = 16;
+            break;
+
+          case 13:
+            _context3.prev = 13;
+            _context3.t0 = _context3["catch"](1);
+            console.log(_context3.t0);
+
+          case 16:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, null, null, [[1, 13]]);
+  });
 });
 mongoose.connect(db).then(function () {
   console.log("DB Connected");

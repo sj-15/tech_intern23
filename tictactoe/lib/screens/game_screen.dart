@@ -30,6 +30,7 @@ class _GameScreenState extends State<GameScreen> {
   Widget build(BuildContext context) {
     RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
     return Scaffold(
+      extendBodyBehindAppBar: true,
       body: Responsive(
         child: roomDataProvider.roomdata['isJoin']
             ? const WaitingLobby()
