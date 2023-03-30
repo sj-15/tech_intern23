@@ -24,6 +24,14 @@ class MainMenuScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'assets/tictactoe.jpg',
+              height: 200,
+              width: 200,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             CustomButton(text: 'Create room', onTap: () => createroom(context)),
             const SizedBox(
               height: 10,
