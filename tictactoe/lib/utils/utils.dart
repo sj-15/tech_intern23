@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tictactoe/resources/game_method.dart';
+import 'package:tictactoe/resources/offline/offline_game_methods.dart';
+import 'package:tictactoe/screens/offline/offline_game_board.dart';
 
 void showSnackBar(BuildContext context, String content) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -20,6 +22,7 @@ void showGameDialog(BuildContext context, String text) {
             TextButton(
               onPressed: () {
                 GameMethods().clearBoard(context);
+                OfflineGameMethods().clearBoard();
                 Navigator.pop(context);
               },
               child: const Text(

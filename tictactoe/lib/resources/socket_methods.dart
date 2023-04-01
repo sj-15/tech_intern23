@@ -4,7 +4,7 @@ import 'package:socket_io_client/socket_io_client.dart';
 import 'package:tictactoe/provider/room_data_provider.dart';
 import 'package:tictactoe/resources/game_method.dart';
 import 'package:tictactoe/resources/socket_client.dart';
-import 'package:tictactoe/screens/game_screen.dart';
+import 'package:tictactoe/screens/online/game_screen.dart';
 import 'package:tictactoe/utils/utils.dart';
 
 class SocketMethods {

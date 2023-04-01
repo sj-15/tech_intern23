@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tictactoe/responsive/responsive.dart';
-import 'package:tictactoe/screens/create_room.dart';
+import 'package:tictactoe/screens/online/create_room.dart';
+import 'package:tictactoe/screens/offline/name_screen.dart';
+import 'package:tictactoe/screens/with_ai.dart';
 import 'package:tictactoe/widgets/custom_button.dart';
 
-import 'join_room.dart';
+import 'online/join_room.dart';
 
 class MainMenuScreen extends StatelessWidget {
   static String routeName = '/main-menu';
@@ -15,6 +17,14 @@ class MainMenuScreen extends StatelessWidget {
 
   void joinroom(BuildContext context) {
     Navigator.pushNamed(context, JoinRoomScreen.routeName);
+  }
+
+  void playwithai(BuildContext context) {
+    Navigator.pushNamed(context, PlayWithAI.routeName);
+  }
+
+  void namescreen(BuildContext context) {
+    Navigator.pushNamed(context, NameScreen.routeName);
   }
 
   @override
@@ -40,11 +50,13 @@ class MainMenuScreen extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            CustomButton(text: 'Play with AI', onTap: () {}),
+            CustomButton(
+                text: 'Play with AI', onTap: () => playwithai(context)),
             const SizedBox(
               height: 10,
             ),
-            CustomButton(text: 'Play with friend', onTap: () {}),
+            CustomButton(
+                text: 'Play with friend', onTap: () => namescreen(context)),
           ],
         ),
       ),

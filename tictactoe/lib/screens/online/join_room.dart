@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tictactoe/resources/socket_methods.dart';
 import 'package:tictactoe/responsive/responsive.dart';
 
-import '../widgets/custom_button.dart';
-import '../widgets/custom_text.dart';
-import '../widgets/custom_textfield.dart';
+import '../../widgets/custom_button.dart';
+import '../../widgets/custom_text.dart';
+import '../../widgets/custom_textfield.dart';
 
 class JoinRoomScreen extends StatefulWidget {
   static String routeName = '/join-room';

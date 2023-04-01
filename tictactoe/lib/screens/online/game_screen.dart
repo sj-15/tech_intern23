@@ -4,9 +4,9 @@ import 'package:tictactoe/resources/socket_methods.dart';
 import 'package:tictactoe/responsive/responsive.dart';
 import 'package:tictactoe/views/waititng_lobby.dart';
 
-import '../provider/room_data_provider.dart';
-import '../views/score_board.dart';
-import '../views/tictactoe_board.dart';
+import '../../provider/room_data_provider.dart';
+import '../../views/score_board.dart';
+import '../../views/tictactoe_board.dart';
 
 class GameScreen extends StatefulWidget {
   static String routeName = '/game-screen';
