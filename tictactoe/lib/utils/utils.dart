@@ -22,7 +22,7 @@ void showGameDialog(BuildContext context, String text) {
             TextButton(
               onPressed: () {
                 GameMethods().clearBoard(context);
-                OfflineGameMethods().clearBoard();
+                OfflineGameMethods().clearBoard(context);
                 Navigator.pop(context);
               },
               child: const Text(

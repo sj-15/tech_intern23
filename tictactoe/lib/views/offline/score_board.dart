@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../provider/room_data_provider.dart';
 
 class OfflineScoreBoard extends StatelessWidget {
-  final String player1name;
-  final String player2name;
-  const OfflineScoreBoard(
-      {super.key, required this.player1name, required this.player2name});
+  const OfflineScoreBoard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    int score1 = 0;
-    int score2 = 0;
+    RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -19,14 +19,14 @@ class OfflineScoreBoard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                player1name,
+                roomDataProvider.player1.nickname,
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                score1.toString(),
+                roomDataProvider.player1.points.toString(),
                 style: const TextStyle(
                   fontSize: 20,
                 ),
@@ -40,14 +40,14 @@ class OfflineScoreBoard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                player2name,
+                roomDataProvider.player2.nickname,
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                score2.toString(),
+                roomDataProvider.player2.points.toString(),
                 style: const TextStyle(
                   fontSize: 20,
                 ),

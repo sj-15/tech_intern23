@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tictactoe/resources/offline/offline_game_methods.dart';
+
+import '../../provider/room_data_provider.dart';
 
 class OfflineTicTacToeBoard extends StatefulWidget {
   const OfflineTicTacToeBoard({super.key});
@@ -13,11 +16,10 @@ class _OfflineTicTacToeBoardState extends State<OfflineTicTacToeBoard> {
 
   late String currentPlayer = 'X';
 
-  void tapped(int index) {
-    if (_offlineGameMethods.boardElements[index] == '') {
-      _offlineGameMethods.boardElements[index] = currentPlayer;
+  void tapped(int index, RoomDataProvider roomDataProvider) {
+    if (roomDataProvider.displayElements[index] == '') {
+      roomDataProvider.updateDisplayElements(index, currentPlayer);
       setState(() {
-        _offlineGameMethods.filledBoxes += 1;
         _offlineGameMethods.checkWinner(context, currentPlayer);
         currentPlayer == 'X' ? currentPlayer = 'O' : currentPlayer = 'X';
       });
@@ -26,8 +28,8 @@ class _OfflineTicTacToeBoardState extends State<OfflineTicTacToeBoard> {
 
   @override
   Widget build(BuildContext context) {
+    RoomDataProvider roomDataProvider = Provider.of<RoomDataProvider>(context);
     final size = MediaQuery.of(context).size;
-
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: size.height * 0.7,
@@ -39,16 +41,21 @@ class _OfflineTicTacToeBoardState extends State<OfflineTicTacToeBoard> {
             const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            onTap: () => tapped(index),
+            onTap: () => tapped(
+              index,
+              roomDataProvider,
+            ),
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.white24),
+                border: Border.all(
+                  color: Colors.white24,
+                ),
               ),
               child: Center(
                 child: AnimatedSize(
                   duration: const Duration(milliseconds: 200),
                   child: Text(
-                    _offlineGameMethods.boardElements[index],
+                    roomDataProvider.displayElements[index],
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 100,
@@ -56,10 +63,10 @@ class _OfflineTicTacToeBoardState extends State<OfflineTicTacToeBoard> {
                       shadows: [
                         Shadow(
                           blurRadius: 40,
-                          color: _offlineGameMethods.boardElements[index] == 'O'
+                          color: roomDataProvider.displayElements[index] == 'O'
                               ? Colors.red
                               : Colors.blue,
-                        )
+                        ),
                       ],
                     ),
                   ),

@@ -1,80 +1,97 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../provider/room_data_provider.dart';
 import '../../utils/utils.dart';
 
 class OfflineGameMethods extends ChangeNotifier {
-  List<String> boardElements = ['', '', '', '', '', '', '', '', ''];
-  late int filledBoxes = 0;
-  late int score1 = 0;
-  late int score2 = 0;
-
   void checkWinner(BuildContext context, String currentPlayer) {
+    RoomDataProvider roomDataProvider =
+        Provider.of<RoomDataProvider>(context, listen: false);
     String winner = '';
 
     // Checking rows
-    if (boardElements[0] == boardElements[1] &&
-        boardElements[0] == boardElements[2] &&
-        boardElements[0] != '') {
-      winner = boardElements[0];
+    if (roomDataProvider.displayElements[0] ==
+            roomDataProvider.displayElements[1] &&
+        roomDataProvider.displayElements[0] ==
+            roomDataProvider.displayElements[2] &&
+        roomDataProvider.displayElements[0] != '') {
+      winner = roomDataProvider.displayElements[0];
     }
-    if (boardElements[3] == boardElements[4] &&
-        boardElements[3] == boardElements[5] &&
-        boardElements[3] != '') {
-      winner = boardElements[3];
+    if (roomDataProvider.displayElements[3] ==
+            roomDataProvider.displayElements[4] &&
+        roomDataProvider.displayElements[3] ==
+            roomDataProvider.displayElements[5] &&
+        roomDataProvider.displayElements[3] != '') {
+      winner = roomDataProvider.displayElements[3];
     }
-    if (boardElements[6] == boardElements[7] &&
-        boardElements[6] == boardElements[8] &&
-        boardElements[6] != '') {
-      winner = boardElements[6];
+    if (roomDataProvider.displayElements[6] ==
+            roomDataProvider.displayElements[7] &&
+        roomDataProvider.displayElements[6] ==
+            roomDataProvider.displayElements[8] &&
+        roomDataProvider.displayElements[6] != '') {
+      winner = roomDataProvider.displayElements[6];
     }
 
     // Checking Column
-    if (boardElements[0] == boardElements[3] &&
-        boardElements[0] == boardElements[6] &&
-        boardElements[0] != '') {
-      winner = boardElements[0];
+    if (roomDataProvider.displayElements[0] ==
+            roomDataProvider.displayElements[3] &&
+        roomDataProvider.displayElements[0] ==
+            roomDataProvider.displayElements[6] &&
+        roomDataProvider.displayElements[0] != '') {
+      winner = roomDataProvider.displayElements[0];
     }
-    if (boardElements[1] == boardElements[4] &&
-        boardElements[1] == boardElements[7] &&
-        boardElements[1] != '') {
-      winner = boardElements[1];
+    if (roomDataProvider.displayElements[1] ==
+            roomDataProvider.displayElements[4] &&
+        roomDataProvider.displayElements[1] ==
+            roomDataProvider.displayElements[7] &&
+        roomDataProvider.displayElements[1] != '') {
+      winner = roomDataProvider.displayElements[1];
     }
-    if (boardElements[2] == boardElements[5] &&
-        boardElements[2] == boardElements[8] &&
-        boardElements[2] != '') {
-      winner = boardElements[2];
+    if (roomDataProvider.displayElements[2] ==
+            roomDataProvider.displayElements[5] &&
+        roomDataProvider.displayElements[2] ==
+            roomDataProvider.displayElements[8] &&
+        roomDataProvider.displayElements[2] != '') {
+      winner = roomDataProvider.displayElements[2];
     }
 
     // Checking Diagonal
-    if (boardElements[0] == boardElements[4] &&
-        boardElements[0] == boardElements[8] &&
-        boardElements[0] != '') {
-      winner = boardElements[0];
+    if (roomDataProvider.displayElements[0] ==
+            roomDataProvider.displayElements[4] &&
+        roomDataProvider.displayElements[0] ==
+            roomDataProvider.displayElements[8] &&
+        roomDataProvider.displayElements[0] != '') {
+      winner = roomDataProvider.displayElements[0];
     }
-    if (boardElements[2] == boardElements[4] &&
-        boardElements[2] == boardElements[6] &&
-        boardElements[2] != '') {
-      winner = boardElements[2];
-    } else if (filledBoxes == 9 && winner == '') {
+    if (roomDataProvider.displayElements[2] ==
+            roomDataProvider.displayElements[4] &&
+        roomDataProvider.displayElements[2] ==
+            roomDataProvider.displayElements[6] &&
+        roomDataProvider.displayElements[2] != '') {
+      winner = roomDataProvider.displayElements[2];
+    } else if (roomDataProvider.filledBoxes == 9 && winner == '') {
       winner = '';
     }
 
-    if (winner == '' && filledBoxes == 9) {
+    if (winner == '' && roomDataProvider.filledBoxes == 9) {
       showGameDialog(context, 'Draw');
     } else if (winner == 'X') {
-      score1++;
-      showGameDialog(context, 'X');
+      // roomDataProvider.player1.points += 1;
+      showGameDialog(context, '${roomDataProvider.player1.nickname} won');
     } else if (winner == 'O') {
-      score2++;
-      showGameDialog(context, 'O');
+      // score2++;
+      showGameDialog(context, '${roomDataProvider.player2.nickname} won');
     }
   }
 
-  void clearBoard() {
-    for (int i = 0; i < boardElements.length; i++) {
-      boardElements[i] = '';
+  void clearBoard(BuildContext context) {
+    RoomDataProvider roomDataProvider =
+        Provider.of<RoomDataProvider>(context, listen: false);
+    for (int i = 0; i < roomDataProvider.displayElements.length; i++) {
+      roomDataProvider.displayElements[i] = '';
       notifyListeners();
     }
-    filledBoxes = 0;
+    roomDataProvider.setFilledBoxesTo0();
   }
 }
