@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tictactoe/models/player.dart';
 import 'package:tictactoe/responsive/responsive.dart';
 import 'package:tictactoe/screens/offline/offline_game_board.dart';
 import 'package:tictactoe/widgets/custom_button.dart';

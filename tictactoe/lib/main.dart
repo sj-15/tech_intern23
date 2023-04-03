@@ -8,7 +8,6 @@ import 'package:tictactoe/screens/main_menu_screen.dart';
 import 'package:tictactoe/screens/offline/name_screen.dart';
 import 'package:tictactoe/screens/with_ai.dart';
 import 'package:tictactoe/utils/colors.dart';
-import 'package:tictactoe/screens/offline/offline_game_board.dart';
 
 void main() {
   runApp(const MyApp());
