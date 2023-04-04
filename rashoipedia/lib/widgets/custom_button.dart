@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatefulWidget {
   final String text;
   final VoidCallback onPressed;
-  const CustomButton({super.key, required this.text, required this.onPressed});
+  const CustomButton({Key? key, required this.text, required this.onPressed})
+      : super(key: key);
 
   @override
   State<CustomButton> createState() => _CustomButtonState();
@@ -14,15 +15,31 @@ class _CustomButtonState extends State<CustomButton> {
   double _buttonWidth = 300;
   double _buttonHeight = 45.0;
 
+  void _onTapDown() {
+    setState(() {
+      _buttonWidth = 200.0;
+      _buttonHeight = 35.0;
+    });
+  }
+
+  void _onTapUp() {
+    setState(() {
+      _buttonWidth = 300;
+      _buttonHeight = 45.0;
+    });
+    widget.onPressed();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTapDown: (_) => _onTapDown(),
+      onTapUp: (_) => _onTapUp(),
+      onTapCancel: () {
         setState(() {
-          _buttonWidth = 250.0;
-          _buttonHeight = 40.0;
+          _buttonWidth = 300;
+          _buttonHeight = 45.0;
         });
-        widget.onPressed();
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
@@ -41,7 +58,7 @@ class _CustomButtonState extends State<CustomButton> {
         ),
         child: Center(
           child: DelayedDisplay(
-            delay: const Duration(milliseconds: 2700),
+            delay: const Duration(milliseconds: 2000),
             child: Text(
               widget.text,
               style: const TextStyle(

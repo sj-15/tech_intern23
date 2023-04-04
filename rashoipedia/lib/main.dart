@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rashoipedia/components/colors/color.dart';
+import 'package:rashoipedia/screens/homepage_screen.dart';
 import 'package:rashoipedia/screens/landing_screen.dart';
 
 void main() {
@@ -17,7 +18,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: background,
       ),
-      home: const LandingScreen(),
+      routes: {
+        LandingScreen.routeName: (context) => const LandingScreen(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
+      },
+      initialRoute: HomeScreen.routeName,
     );
   }
 }

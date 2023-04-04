@@ -1,11 +1,13 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
+import 'package:rashoipedia/components/colors/color.dart';
 import 'package:rashoipedia/oath/screens/signin_screen.dart';
 import 'package:rashoipedia/widgets/custom_button.dart';
-
 import '../oath/screens/signup_screen.dart';
+import '../widgets/custom_text.dart';
 
 class LandingScreen extends StatefulWidget {
+  static String routeName = '/landing-screen';
   const LandingScreen({super.key});
 
   @override
@@ -13,10 +15,24 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
+  void _showSheet(BuildContext context, Widget page) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      ),
+      // isScrollControlled: true,
+      backgroundColor: background,
+      builder: (BuildContext context) {
+        return page;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
     return Scaffold(
+      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           ShaderMask(
@@ -37,43 +53,34 @@ class _LandingScreenState extends State<LandingScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: DelayedDisplay(
-              delay: const Duration(seconds: 2),
+              delay: const Duration(milliseconds: 1500),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Find the perfect recipes',
-                    style: TextStyle(
-                        fontSize: 42,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFFFFFFFF)),
-                    textAlign: TextAlign.center,
-                  ),
+                  const CustomText(shadows: [
+                    Shadow(
+                      blurRadius: 40,
+                      color: Colors.blue,
+                    )
+                  ], text: 'Find the perfect recipes', fontSize: 42),
                   const SizedBox(
                     height: 15,
                   ),
+                  const Text(
+                    'Over 20 thousand recipes',
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
                   CustomButton(
                     text: 'Sign In',
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          opaque: false,
-                          pageBuilder: (_, __, ___) => const SignInScreen(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return SlideTransition(
-                              position: Tween(
-                                begin: const Offset(0.0, 1.0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: child,
-                            );
-                          },
-                          transitionDuration: const Duration(milliseconds: 300),
-                        ),
-                      );
-                    },
+                    onPressed: () => _showSheet(context, const SignInScreen()),
                   ),
                   const SizedBox(
                     height: 15,
@@ -90,25 +97,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   ),
                   CustomButton(
                     text: 'Sign Up',
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        PageRouteBuilder(
-                          opaque: false,
-                          pageBuilder: (_, __, ___) => const SignUpScreen(),
-                          transitionsBuilder:
-                              (context, animation, secondaryAnimation, child) {
-                            return SlideTransition(
-                              position: Tween(
-                                begin: const Offset(0.0, 1.0),
-                                end: Offset.zero,
-                              ).animate(animation),
-                              child: child,
-                            );
-                          },
-                          transitionDuration: const Duration(milliseconds: 300),
-                        ),
-                      );
-                    },
+                    onPressed: () => _showSheet(context, const SignUpScreen()),
                   ),
                   const SizedBox(
                     height: 15,
