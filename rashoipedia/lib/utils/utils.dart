@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 // for picking up image from gallery
@@ -8,4 +9,12 @@ pickImage(ImageSource source) async {
     return await file.readAsBytes();
   }
   print('No Image Selected');
+}
+
+showSnackBar(BuildContext context, String text) {
+  return ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(text),
+    ),
+  );
 }

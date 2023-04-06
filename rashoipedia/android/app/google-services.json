@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1045097064783",
+    "project_id": "rashoipedia",
+    "storage_bucket": "rashoipedia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045097064783:android:b641251bbf2f98713cbd3a",
+        "android_client_info": {
+          "package_name": "com.example.rashoipedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1045097064783-epk1u1jjvve76t387chdse3sq9bgrsfa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rashoipedia",
+            "certificate_hash": "b1cca51ac4fb91895031551973018c5eb64334ef"
+          }
+        },
+        {
+          "client_id": "1045097064783-442jvkotq6n6i2duah0bkrbmvmks0ut8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBm4rmxKxuoaEbjAsWOy1EPbDEMVK7Vax4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1045097064783-442jvkotq6n6i2duah0bkrbmvmks0ut8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

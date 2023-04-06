@@ -4,6 +4,7 @@ import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rashoipedia/components/colors/color.dart';
+import 'package:rashoipedia/oath/services/auth_methods.dart';
 import 'package:rashoipedia/screens/homepage_screen.dart';
 import 'package:rashoipedia/widgets/text_input_field.dart';
 
@@ -39,6 +40,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() {
       _image = im;
     });
+  }
+
+  void signUpUser() async {
+    String res = await AuthMethods().signUpUser(
+        email: _emailcontroller.text,
+        password: _passwordcontroller.text,
+        name: _namecontroller.text,
+        file: _image!);
+    if (res == 'success') {
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamed(context, HomeScreen.routeName);
+    } else {
+      // ignore: use_build_context_synchronously
+      showSnackBar(context, res);
+    }
   }
 
   @override
@@ -136,9 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             CustomButton(
               text: 'Start Cooking',
-              onPressed: () {
-                Navigator.pushNamed(context, HomeScreen.routeName);
-              },
+              onPressed: signUpUser,
             ),
           ],
         ),

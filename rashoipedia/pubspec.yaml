@@ -38,6 +38,11 @@ dependencies:
   delayed_display: ^2.0.0
   sliding_sheet: ^0.5.2
   image_picker: ^0.8.7+1
+  firebase_auth: ^4.4.0
+  firebase_core: ^2.9.0
+  firebase_storage: ^11.1.0
+  cloud_firestore: ^4.5.0
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:
