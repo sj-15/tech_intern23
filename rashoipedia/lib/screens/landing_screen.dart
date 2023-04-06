@@ -1,6 +1,5 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
-import 'package:rashoipedia/components/colors/color.dart';
 import 'package:rashoipedia/oath/screens/signin_screen.dart';
 import 'package:rashoipedia/widgets/custom_button.dart';
 import '../oath/screens/signup_screen.dart';
@@ -15,14 +14,9 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
-  void _showSheet(BuildContext context, Widget page) {
-    showModalBottomSheet(
+  void _showDialog(BuildContext context, Widget page) {
+    showDialog(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-      ),
-      // isScrollControlled: true,
-      backgroundColor: background,
       builder: (BuildContext context) {
         return page;
       },
@@ -32,7 +26,7 @@ class _LandingScreenState extends State<LandingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           ShaderMask(
@@ -80,7 +74,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   ),
                   CustomButton(
                     text: 'Sign In',
-                    onPressed: () => _showSheet(context, const SignInScreen()),
+                    onPressed: () => _showDialog(context, const SignInScreen()),
                   ),
                   const SizedBox(
                     height: 15,
@@ -97,7 +91,7 @@ class _LandingScreenState extends State<LandingScreen> {
                   ),
                   CustomButton(
                     text: 'Sign Up',
-                    onPressed: () => _showSheet(context, const SignUpScreen()),
+                    onPressed: () => _showDialog(context, const SignUpScreen()),
                   ),
                   const SizedBox(
                     height: 15,

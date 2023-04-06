@@ -1,6 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:rashoipedia/screens/homepage_screen.dart';
+import 'dart:typed_data';
 
+import 'package:delayed_display/delayed_display.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:rashoipedia/components/colors/color.dart';
+import 'package:rashoipedia/screens/homepage_screen.dart';
+import 'package:rashoipedia/widgets/text_input_field.dart';
+
+import '../../utils/utils.dart';
 import '../../widgets/custom_button.dart';
 import '../../widgets/custom_text.dart';
 
@@ -12,116 +19,129 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController _namecontroller = TextEditingController();
+  final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
+  bool isLoading = false;
+  Uint8List? _image;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _namecontroller.dispose();
+    _emailcontroller.dispose();
+    _passwordcontroller.dispose();
+  }
+
+  selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    // set state because we need to display the image we selected on the circle avatar
+    setState(() {
+      _image = im;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 32,
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const CustomText(shadows: [
-            Shadow(
-              blurRadius: 40,
-              color: Colors.blue,
-            )
-          ], text: 'Create Dish', fontSize: 36),
-          Card(
-            elevation: 10,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+      backgroundColor: background,
+      content: SizedBox(
+        height: size.height * 0.5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const CustomText(shadows: [
+              Shadow(
+                blurRadius: 40,
+                color: Colors.blue,
+              )
+            ], text: 'Make Dish', fontSize: 36),
+            Stack(
+              children: [
+                _image != null
+                    ? CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.yellow,
+                        backgroundImage: MemoryImage(_image!),
+                      )
+                    : const CircleAvatar(
+                        radius: 40,
+                        backgroundColor: Colors.yellow,
+                        backgroundImage: NetworkImage(
+                            'https://th.bing.com/th/id/OIG.EUcbDDgzjK5veRlfLXdy?pcl=1b1a19&pid=ImgGn'),
+                      ),
+                Positioned(
+                  bottom: -10,
+                  left: 42,
+                  child: IconButton(
+                    onPressed: selectImage,
+                    icon: const Icon(Icons.add_a_photo, color: Colors.blue),
+                  ),
+                ),
+              ],
             ),
-            shadowColor: Colors.white.withOpacity(0.5),
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 12, right: 12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    children: const [
-                      Icon(
-                        Icons.person,
-                        color: Colors.blueAccent,
+            DelayedDisplay(
+              delay: const Duration(milliseconds: 500),
+              child: Card(
+                elevation: 10,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+                shadowColor: Colors.white.withOpacity(0.5),
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12, right: 12),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      TextInputField(
+                        icon: Icons.person,
+                        hintText: 'Enter your name',
+                        textInputType: TextInputType.text,
+                        isPassword: false,
+                        controller: _namecontroller,
                       ),
-                      SizedBox(
-                        width: 5,
+                      const Divider(
+                        color: Colors.grey,
+                        thickness: 1,
+                        height: 1,
                       ),
-                      Expanded(
-                        child: TextField(
-                          style: TextStyle(color: Colors.black),
-                          decoration: InputDecoration(
-                            hintText: 'Enter your name',
-                            hintStyle: TextStyle(color: Colors.black),
-                          ),
-                        ),
+                      TextInputField(
+                        icon: Icons.mail,
+                        hintText: 'Enter you email',
+                        textInputType: TextInputType.emailAddress,
+                        isPassword: false,
+                        controller: _emailcontroller,
                       ),
-                    ],
-                  ),
-                  const Divider(
-                    color: Colors.grey,
-                    thickness: 1,
-                    height: 1,
-                  ),
-                  Row(
-                    children: const [
-                      Icon(
-                        Icons.email,
-                        color: Colors.blueAccent,
+                      const Divider(
+                        color: Colors.grey,
+                        thickness: 1,
+                        height: 1,
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: TextField(
-                          style: TextStyle(color: Colors.black),
-                          decoration: InputDecoration(
-                            hintText: 'Enter your email',
-                            hintStyle: TextStyle(color: Colors.black),
-                          ),
-                        ),
+                      TextInputField(
+                        icon: Icons.lock,
+                        hintText: 'Enter your password',
+                        textInputType: TextInputType.text,
+                        isPassword: true,
+                        controller: _passwordcontroller,
                       ),
                     ],
                   ),
-                  const Divider(
-                    color: Colors.grey,
-                    thickness: 1,
-                    height: 1,
-                  ),
-                  Row(
-                    children: const [
-                      Icon(
-                        Icons.lock,
-                        color: Colors.blueAccent,
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: TextField(
-                          style: TextStyle(color: Colors.black),
-                          decoration: InputDecoration(
-                            hintText: 'Enter your password',
-                            hintStyle: TextStyle(color: Colors.black),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-          CustomButton(
-            text: 'Start Cooking',
-            onPressed: () {
-              Navigator.pushNamed(context, HomeScreen.routeName);
-            },
-          ),
-        ],
+            CustomButton(
+              text: 'Start Cooking',
+              onPressed: () {
+                Navigator.pushNamed(context, HomeScreen.routeName);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

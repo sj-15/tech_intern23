@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         LandingScreen.routeName: (context) => const LandingScreen(),
         HomeScreen.routeName: (context) => const HomeScreen(),
       },
-      initialRoute: HomeScreen.routeName,
+      initialRoute: LandingScreen.routeName,
     );
   }
 }
