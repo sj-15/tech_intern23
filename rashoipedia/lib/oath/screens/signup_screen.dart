@@ -50,7 +50,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         file: _image!);
     if (res == 'success') {
       // ignore: use_build_context_synchronously
-      Navigator.pushNamed(context, HomeScreen.routeName);
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ),
+          (route) => false);
     } else {
       // ignore: use_build_context_synchronously
       showSnackBar(context, res);

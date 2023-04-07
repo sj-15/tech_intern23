@@ -5,7 +5,9 @@ import 'package:rashoipedia/widgets/custom_button.dart';
 import 'package:rashoipedia/widgets/text_input_field.dart';
 
 import '../../components/colors/color.dart';
+import '../../utils/utils.dart';
 import '../../widgets/custom_text.dart';
+import '../services/auth_methods.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -22,6 +24,22 @@ class _SignInScreenState extends State<SignInScreen> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+
+  void signInUser() async {
+    String res = await AuthMethods().signInUser(
+        email: _emailController.text, password: _passwordController.text);
+    if (res == 'success') {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(),
+          ),
+          (route) => false);
+    } else {
+      // ignore: use_build_context_synchronously
+      showSnackBar(context, res);
+    }
   }
 
   @override
@@ -105,9 +123,7 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
             CustomButton(
               text: 'Start Cooking',
-              onPressed: () {
-                Navigator.pushNamed(context, HomeScreen.routeName);
-              },
+              onPressed: signInUser,
             ),
           ],
         ),
