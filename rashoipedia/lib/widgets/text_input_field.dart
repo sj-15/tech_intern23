@@ -23,17 +23,21 @@ class TextInputField extends StatelessWidget {
       keyboardType: textInputType,
       controller: controller,
       decoration: InputDecoration(
-          prefixIcon: IconTheme(
-            data: IconThemeData(color: Colors.blue[600]),
-            child: Icon(icon),
-          ),
-          hintText: hintText,
-          hintStyle: const TextStyle(color: Colors.black),
-          filled: true,
-          fillColor: Colors.transparent,
-          focusColor: Colors.transparent,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 10, vertical: 15)),
+        prefixIcon: IconTheme(
+          data: IconThemeData(color: Colors.blue[600]),
+          child: Icon(icon),
+        ),
+        hintText: hintText,
+        hintStyle: const TextStyle(color: Colors.black),
+        filled: true,
+        fillColor: Colors.transparent,
+        focusColor: Colors.transparent,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 15,
+        ),
+        border: InputBorder.none,
+      ),
       cursorColor: Colors.black,
     );
   }

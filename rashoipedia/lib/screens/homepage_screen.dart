@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:rashoipedia/categories/brakefast.dart';
 import 'package:rashoipedia/models/user_model.dart' as model;
 import 'package:rashoipedia/oath/services/auth_methods.dart';
-import 'package:rashoipedia/utils/utils.dart';
+import 'package:rashoipedia/widgets/custom_text.dart';
+import 'package:rashoipedia/widgets/text_input_field.dart';
+
+import '../categories/deserts.dart';
+import '../categories/dinner.dart';
+import '../categories/lunch.dart';
+import '../categories/new.dart';
+import '../categories/snacks.dart';
 
 class HomeScreen extends StatefulWidget {
   static String routeName = '/home-screen';
@@ -19,11 +26,18 @@ class _HomeScreenState extends State<HomeScreen>
   late TabController tabController;
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final TextEditingController searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 5, vsync: this, initialIndex: 0);
+    tabController = TabController(length: 6, vsync: this, initialIndex: 0);
   }
 
   Future<DocumentSnapshot> getData() async {
@@ -38,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen>
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: DefaultTabController(
-            length: 5,
+            length: 6,
             initialIndex: 0,
             child: Column(
               children: [
@@ -51,10 +65,15 @@ class _HomeScreenState extends State<HomeScreen>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            'hello,\n${userData.username} 👋🏻',
-                            style: const TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
+                          CustomText(
+                            shadows: const [
+                              Shadow(
+                                blurRadius: 40,
+                                color: Colors.blue,
+                              )
+                            ],
+                            text: 'hey, ${userData.username} 👋🏻',
+                            fontSize: 30,
                           ),
                           CircleAvatar(
                             radius: 40,
@@ -70,13 +89,33 @@ class _HomeScreenState extends State<HomeScreen>
                   },
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    color: Colors.white.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: TextInputField(
+                    icon: Icons.search,
+                    hintText: "Find your recipe",
+                    textInputType: TextInputType.text,
+                    isPassword: false,
+                    controller: searchController,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 TabBar(
                   isScrollable: true,
                   labelStyle: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                   tabs: const [
+                    Tab(
+                      text: 'New',
+                    ),
                     Tab(
                       text: 'Brakefast',
                     ),
@@ -112,11 +151,12 @@ class _HomeScreenState extends State<HomeScreen>
                   child: TabBarView(
                     controller: tabController,
                     children: const [
+                      NewScreen(),
                       BrakeFastScreen(),
-                      BrakeFastScreen(),
-                      BrakeFastScreen(),
-                      BrakeFastScreen(),
-                      BrakeFastScreen(),
+                      LunchScreen(),
+                      DinnerScreen(),
+                      DesertsScreen(),
+                      SnackScreen(),
                     ],
                   ),
                 ),
