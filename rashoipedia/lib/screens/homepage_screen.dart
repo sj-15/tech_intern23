@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen>
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.blueGrey.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: TextInputField(
@@ -150,6 +150,7 @@ class _HomeScreenState extends State<HomeScreen>
                 Flexible(
                   child: TabBarView(
                     controller: tabController,
+                    physics: const NeverScrollableScrollPhysics(),
                     children: const [
                       NewScreen(),
                       BrakeFastScreen(),

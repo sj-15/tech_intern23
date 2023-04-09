@@ -21,10 +21,10 @@ class _NewScreenState extends State<NewScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ItemCard(
-                index: index,
+                index: 2 * index,
               ),
               ItemCard(
-                index: index,
+                index: 2 * index + 1,
               ),
             ],
           ),
