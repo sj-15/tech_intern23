@@ -19,13 +19,22 @@ class _IngredientsListState extends State<IngredientsList> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                const Icon(
+                  Icons.circle,
+                  size: 12,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
                 Text(
                   ingredient['name']!,
-                  style: TextStyle(fontSize: 24),
+                  style: const TextStyle(fontSize: 18),
                 ),
-                Text(ingredient['quantity']!),
+                const Spacer(),
+                Text(
+                  ingredient['quantity']!,
+                ),
               ],
             ),
           ),

@@ -22,16 +22,6 @@ class _RecipeDetailsState extends State<RecipeDetails> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        actions: const [
-          Icon(
-            Icons.favorite_outline,
-            color: Colors.white,
-          ),
-        ],
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           return SlidingSheet(
@@ -50,6 +40,45 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                   height: size.height * 0.4,
                   width: double.infinity,
                   fit: BoxFit.cover,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 30, horizontal: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: const BoxDecoration(
+                            color: background,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8),
+                            ),
+                          ),
+                          child: const Icon(Icons.close),
+                        ),
+                      ),
+                      Container(
+                        height: 25,
+                        width: 50,
+                        decoration: const BoxDecoration(
+                          color: background,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.star, color: Colors.yellow),
+                            Text('4.5'),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

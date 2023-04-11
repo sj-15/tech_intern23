@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:timeline_tile/timeline_tile.dart';
 import '../../models/recipes.dart';
 
 class InstructionsList extends StatefulWidget {
@@ -14,17 +14,46 @@ class _InstructionsListState extends State<InstructionsList> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.4,
-      child: ListView.builder(
-        itemCount: recipeModel.instructions.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            leading: const Icon(Icons.arrow_forward),
-            title: Text(recipeModel.instructions[index]),
-          );
-        },
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (var i = 0; i < recipeModel.instructions.length; i++)
+          TimelineTile(
+            alignment: TimelineAlign.start,
+            lineXY: 0.3,
+            isFirst: i == 0,
+            isLast: i == recipeModel.instructions.length - 1,
+            beforeLineStyle: const LineStyle(
+              color: Colors.grey,
+              thickness: 2,
+            ),
+            indicatorStyle: IndicatorStyle(
+              width: 20,
+              height: 20,
+              indicator: DecoratedBox(
+                decoration: const BoxDecoration(
+                  color: Colors.blue,
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Text(
+                    (i + 1).toString(),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
+            endChild: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              child: Text(
+                recipeModel.instructions[i],
+                style: const TextStyle(fontSize: 18),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          )
+      ],
     );
   }
 }
