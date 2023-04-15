@@ -147,14 +147,41 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Nutritions(
-                          photoUrl: 'assets/carbo.jpg',
-                          text: '13.6g carbs',
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Nutritions(
+                              photoUrl: 'assets/carbo.jpg',
+                              text: '13.6g carbs',
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Nutritions(
+                              photoUrl: 'assets/energy.png',
+                              text: '427 Kcal',
+                            ),
+                          ],
                         ),
-                        Nutritions(
-                          photoUrl: 'assets/protein.png',
-                          text: '33.2g proteins',
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Nutritions(
+                              photoUrl: 'assets/protein.png',
+                              text: '33.2g proteins',
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Nutritions(
+                              photoUrl: 'assets/fat.png',
+                              text: '26.8g fats',
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -164,16 +191,8 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
-                        Nutritions(
-                          photoUrl: 'assets/energy.png',
-                          text: '427 Kcal',
-                        ),
                         SizedBox(
                           width: 30,
-                        ),
-                        Nutritions(
-                          photoUrl: 'assets/fat.png',
-                          text: '26.8g fats',
                         ),
                       ],
                     ),

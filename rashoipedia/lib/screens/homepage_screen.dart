@@ -12,6 +12,8 @@ import '../categories/dinner.dart';
 import '../categories/lunch.dart';
 import '../categories/new.dart';
 import '../categories/snacks.dart';
+import '../models/recipe_model.dart';
+import '../services/mysql_client.dart';
 
 class HomeScreen extends StatefulWidget {
   static String routeName = '/home-screen';
@@ -27,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen>
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final TextEditingController searchController = TextEditingController();
-
+  List<Recipe> recipes = [];
   @override
   void dispose() {
     super.dispose();
@@ -38,11 +40,15 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     tabController = TabController(length: 6, vsync: this, initialIndex: 0);
+    loadRecipesForCategory(tabController.index + 1);
   }
 
-  Future<DocumentSnapshot> getData() async {
-    String uid = auth.currentUser!.uid;
-    return await firestore.collection('users').doc(uid).get();
+  Future<void> loadRecipesForCategory(int categoryId) async {
+    final recipesData = await getRecipesForCategory(categoryId);
+    for (final recipeData in recipesData) {
+      Recipe recipe = Recipe.fromMap(recipeData);
+      recipes.add(recipe);
+    }
   }
 
   @override
@@ -140,19 +146,18 @@ class _HomeScreenState extends State<HomeScreen>
                   indicatorColor: Colors.transparent,
                   splashBorderRadius: BorderRadius.circular(30),
                   onTap: (index) {
-                    setState(
-                      () {
-                        tabController.index = index;
-                      },
-                    );
+                    setState(() {
+                      tabController.index = index;
+                    });
+                    loadRecipesForCategory(index + 1);
                   },
                 ),
                 Flexible(
                   child: TabBarView(
                     controller: tabController,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: const [
-                      NewScreen(),
+                    children: [
+                      NewScreen(recipes: recipes),
                       BrakeFastScreen(),
                       LunchScreen(),
                       DinnerScreen(),

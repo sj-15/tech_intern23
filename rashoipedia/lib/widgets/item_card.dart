@@ -3,7 +3,18 @@ import 'package:rashoipedia/screens/recipe_details.dart';
 
 class ItemCard extends StatelessWidget {
   final int index;
-  const ItemCard({super.key, required this.index});
+  final String name;
+  final int time;
+  final String rating;
+  final String photoUrl;
+  const ItemCard({
+    super.key,
+    required this.index,
+    required this.name,
+    required this.time,
+    required this.rating,
+    required this.photoUrl,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,39 +53,39 @@ class ItemCard extends StatelessWidget {
                         SizedBox(
                           height: size.height * 0.05,
                         ),
-                        const Text(
-                          'Butter chicken',
-                          style: TextStyle(
+                        Text(
+                          name,
+                          style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 20,
+                            fontSize: 18,
                           ),
                           textAlign: TextAlign.center,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
-                            Icon(
+                          children: [
+                            const Icon(
                               Icons.star,
                               color: Colors.yellow,
                               size: 15,
                             ),
                             Text(
-                              '4.9',
-                              style: TextStyle(
+                              rating.toString(),
+                              style: const TextStyle(
                                 fontSize: 15,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 10,
                             ),
-                            Icon(
+                            const Icon(
                               Icons.access_time,
                               color: Colors.blue,
                               size: 15,
                             ),
                             Text(
-                              '60 m',
-                              style: TextStyle(
+                              '$time m',
+                              style: const TextStyle(
                                 fontSize: 15,
                               ),
                             ),
@@ -86,11 +97,11 @@ class ItemCard extends StatelessWidget {
                 ),
               ),
             ),
-            const Positioned(
+            Positioned(
               left: 25,
               child: CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/meal3.jpg'),
+                backgroundImage: NetworkImage(photoUrl),
               ),
             ),
           ],
