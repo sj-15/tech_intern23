@@ -3,7 +3,9 @@ import 'package:timeline_tile/timeline_tile.dart';
 import '../../models/recipes.dart';
 
 class InstructionsList extends StatefulWidget {
-  const InstructionsList({Key? key}) : super(key: key);
+  final List<String> instructions;
+  const InstructionsList({Key? key, required this.instructions})
+      : super(key: key);
 
   @override
   State<InstructionsList> createState() => _InstructionsListState();
@@ -17,12 +19,12 @@ class _InstructionsListState extends State<InstructionsList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (var i = 0; i < recipeModel.instructions.length; i++)
+        for (var i = 0; i < widget.instructions.length; i++)
           TimelineTile(
             alignment: TimelineAlign.start,
             lineXY: 0.3,
             isFirst: i == 0,
-            isLast: i == recipeModel.instructions.length - 1,
+            isLast: i == widget.instructions.length - 1,
             beforeLineStyle: const LineStyle(
               color: Colors.grey,
               thickness: 2,
@@ -46,9 +48,9 @@ class _InstructionsListState extends State<InstructionsList> {
             endChild: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               child: Text(
-                recipeModel.instructions[i],
+                widget.instructions[i],
                 style: const TextStyle(fontSize: 18),
-                maxLines: 3,
+                maxLines: 10,
                 overflow: TextOverflow.ellipsis,
               ),
             ),

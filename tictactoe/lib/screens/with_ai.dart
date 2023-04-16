@@ -8,7 +8,7 @@ class PlayWithAI extends StatefulWidget {
   const PlayWithAI({Key? key}) : super(key: key);
 
   @override
-  _PlayWithAIState createState() => _PlayWithAIState();
+  State createState() => _PlayWithAIState();
 }
 
 class _PlayWithAIState extends State<PlayWithAI> {

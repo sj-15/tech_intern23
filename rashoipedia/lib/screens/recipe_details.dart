@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:rashoipedia/components/colors/color.dart';
 import 'package:rashoipedia/components/screens/ingredients.dart';
 import 'package:rashoipedia/components/screens/instructions.dart';
+import 'package:rashoipedia/models/recipe_model.dart';
+import 'package:rashoipedia/models/recipes.dart';
+import 'package:rashoipedia/services/mysql_client.dart';
 import 'package:rashoipedia/widgets/custom_card.dart';
 import 'package:rashoipedia/widgets/nutritions.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
 class RecipeDetails extends StatefulWidget {
-  const RecipeDetails({Key? key}) : super(key: key);
+  final Recipe recipe;
+  const RecipeDetails({Key? key, required this.recipe}) : super(key: key);
 
   @override
   State<RecipeDetails> createState() => _RecipeDetailsState();
@@ -15,11 +19,24 @@ class RecipeDetails extends StatefulWidget {
 
 class _RecipeDetailsState extends State<RecipeDetails> {
   bool isIngredients = true;
+  RecipeDetailsModel? recipeDetailsModel;
+  @override
+  void initState() {
+    super.initState();
+    fetchRecipeDetails(widget.recipe.id).then((details) {
+      setState(() {
+        recipeDetailsModel = details;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
+    if (recipeDetailsModel == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    print(recipeDetailsModel!.nutritions);
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: LayoutBuilder(
@@ -35,8 +52,8 @@ class _RecipeDetailsState extends State<RecipeDetails> {
             ),
             body: Stack(
               children: [
-                Image.asset(
-                  'assets/meal5.jpg',
+                Image.network(
+                  widget.recipe.photoUrl,
                   height: size.height * 0.4,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -71,9 +88,9 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                           ),
                         ),
                         child: Row(
-                          children: const [
-                            Icon(Icons.star, color: Colors.yellow),
-                            Text('4.5'),
+                          children: [
+                            const Icon(Icons.star, color: Colors.yellow),
+                            Text(widget.recipe.rating),
                           ],
                         ),
                       ),
@@ -102,41 +119,45 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                       height: 20,
                     ),
                     Row(
-                      children: const [
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
                         Text(
-                          'Butter Chicken',
+                          widget.recipe.name,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 30,
+                            fontSize: size.width * 0.07,
                             fontWeight: FontWeight.bold,
                           ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        SizedBox(
-                          width: 60,
-                        ),
-                        Icon(
-                          Icons.access_time,
-                          color: Colors.white38,
-                          size: 15,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          '50 Mins',
-                          style: TextStyle(
-                            color: Colors.white60,
-                            fontSize: 15,
-                          ),
-                        ),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.access_time,
+                              color: Colors.white38,
+                              size: 15,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              '${widget.recipe.time.toString()} m',
+                              style: const TextStyle(
+                                color: Colors.white60,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     ),
                     const SizedBox(
                       height: 5,
                     ),
-                    const Text(
-                      'Juicy chicken pieces in a rich, creamy tomato-based gravy.',
-                      style: TextStyle(
+                    Text(
+                      widget.recipe.shortDes,
+                      style: const TextStyle(
                         color: Colors.white54,
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -150,17 +171,18 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Nutritions(
                               photoUrl: 'assets/carbo.jpg',
-                              text: '13.6g carbs',
+                              text:
+                                  '${recipeDetailsModel!.nutritions[0]} carbos',
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Nutritions(
                               photoUrl: 'assets/energy.png',
-                              text: '427 Kcal',
+                              text: '${recipeDetailsModel!.nutritions[2]} kcal',
                             ),
                           ],
                         ),
@@ -169,17 +191,19 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Nutritions(
                               photoUrl: 'assets/protein.png',
-                              text: '33.2g proteins',
+                              text:
+                                  '${recipeDetailsModel!.nutritions[1]}g protein',
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Nutritions(
                               photoUrl: 'assets/fat.png',
-                              text: '26.8g fats',
+                              text:
+                                  "${recipeDetailsModel!.nutritions[recipeDetailsModel!.nutritions.length - 1]}g fat",
                             ),
                           ],
                         ),
@@ -212,8 +236,10 @@ class _RecipeDetailsState extends State<RecipeDetails> {
                       height: 10,
                     ),
                     isIngredients
-                        ? const IngredientsList()
-                        : const InstructionsList(),
+                        ? IngredientsList(
+                            ingredients: recipeDetailsModel!.ingredients)
+                        : InstructionsList(
+                            instructions: recipeDetailsModel!.instructions),
                   ],
                 ),
               );

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:rashoipedia/models/recipes.dart';
 
 class IngredientsList extends StatefulWidget {
-  const IngredientsList({Key? key}) : super(key: key);
+  final List<Map<String, dynamic>> ingredients;
+  const IngredientsList({Key? key, required this.ingredients})
+      : super(key: key);
 
   @override
   State<IngredientsList> createState() => _IngredientsListState();
@@ -15,7 +17,7 @@ class _IngredientsListState extends State<IngredientsList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (var ingredient in recipeModel.ingredients)
+        for (var ingredient in widget.ingredients)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Row(

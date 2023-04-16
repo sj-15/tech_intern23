@@ -1,3 +1,5 @@
+import '../screens/recipe_details.dart';
+
 class RecipeModel {
   List<Map<String, String>> ingredients = [
     {'name': 'Chicken', 'quantity': '1 lb'},
@@ -24,4 +26,28 @@ class RecipeModel {
     'Add heavy cream and cook for a few more minutes.',
     'Garnish with chopped coriander leaves and serve hot.'
   ];
+}
+
+class RecipeDetailsModel {
+  final List<Map<String, dynamic>> ingredients;
+  final List<String> instructions;
+  final List<String> nutritions;
+
+  RecipeDetailsModel({
+    required this.ingredients,
+    required this.instructions,
+    required this.nutritions,
+  });
+
+  factory RecipeDetailsModel.fromMap(Map<String, dynamic> map) {
+    final ingredientsData = map['ingredients'] ?? [];
+    final instructionsData = map['instructions'] ?? [];
+    final nutritionsData = map['nutritions'] ?? [];
+
+    return RecipeDetailsModel(
+      ingredients: List<Map<String, dynamic>>.from(ingredientsData),
+      instructions: List<String>.from(instructionsData),
+      nutritions: List<String>.from(nutritionsData),
+    );
+  }
 }

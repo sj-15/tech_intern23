@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:rashoipedia/models/recipe_model.dart';
 import 'package:rashoipedia/screens/recipe_details.dart';
 
 class ItemCard extends StatelessWidget {
-  final int index;
-  final String name;
-  final int time;
-  final String rating;
-  final String photoUrl;
+  final Recipe recipe;
+
   const ItemCard({
     super.key,
-    required this.index,
-    required this.name,
-    required this.time,
-    required this.rating,
-    required this.photoUrl,
+    required this.recipe,
   });
 
   @override
@@ -27,7 +21,7 @@ class ItemCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const RecipeDetails(),
+              builder: (context) => RecipeDetails(recipe: recipe),
             ),
           );
         },
@@ -54,7 +48,7 @@ class ItemCard extends StatelessWidget {
                           height: size.height * 0.05,
                         ),
                         Text(
-                          name,
+                          recipe.name,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -70,13 +64,13 @@ class ItemCard extends StatelessWidget {
                               size: 15,
                             ),
                             Text(
-                              rating.toString(),
+                              recipe.rating.toString(),
                               style: const TextStyle(
                                 fontSize: 15,
                               ),
                             ),
                             const SizedBox(
-                              width: 10,
+                              width: 20,
                             ),
                             const Icon(
                               Icons.access_time,
@@ -84,7 +78,7 @@ class ItemCard extends StatelessWidget {
                               size: 15,
                             ),
                             Text(
-                              '$time m',
+                              '${recipe.time} m',
                               style: const TextStyle(
                                 fontSize: 15,
                               ),
@@ -101,7 +95,7 @@ class ItemCard extends StatelessWidget {
               left: 25,
               child: CircleAvatar(
                 radius: 50,
-                backgroundImage: NetworkImage(photoUrl),
+                backgroundImage: NetworkImage(recipe.photoUrl),
               ),
             ),
           ],

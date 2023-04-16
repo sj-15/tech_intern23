@@ -40,11 +40,14 @@ class _HomeScreenState extends State<HomeScreen>
   void initState() {
     super.initState();
     tabController = TabController(length: 6, vsync: this, initialIndex: 0);
-    loadRecipesForCategory(tabController.index + 1);
+    loadRecipesForCategory(1).then((_) {
+      setState(() {});
+    });
   }
 
   Future<void> loadRecipesForCategory(int categoryId) async {
     final recipesData = await getRecipesForCategory(categoryId);
+    recipes.clear();
     for (final recipeData in recipesData) {
       Recipe recipe = Recipe.fromMap(recipeData);
       recipes.add(recipe);
@@ -157,12 +160,20 @@ class _HomeScreenState extends State<HomeScreen>
                     controller: tabController,
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
-                      NewScreen(recipes: recipes),
-                      BrakeFastScreen(),
-                      LunchScreen(),
-                      DinnerScreen(),
-                      DesertsScreen(),
-                      SnackScreen(),
+                      NewScreen(
+                        recipes: recipes,
+                      ),
+                      BrakeFastScreen(
+                        recipes: recipes,
+                      ),
+                      LunchScreen(
+                        recipes: recipes,
+                      ),
+                      DinnerScreen(
+                        recipes: recipes,
+                      ),
+                      const DesertsScreen(),
+                      const SnackScreen(),
                     ],
                   ),
                 ),

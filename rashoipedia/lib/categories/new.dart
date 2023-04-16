@@ -26,18 +26,10 @@ class _NewScreenState extends State<NewScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ItemCard(
-                index: widget.recipes[2 * index].id,
-                name: widget.recipes[2 * index].name,
-                rating: widget.recipes[2 * index].rating,
-                time: widget.recipes[2 * index].time,
-                photoUrl: widget.recipes[2 * index].photoUrl,
+                recipe: widget.recipes[2 * index],
               ),
               ItemCard(
-                index: widget.recipes[2 * index + 1].id,
-                name: widget.recipes[2 * index + 1].name,
-                rating: widget.recipes[2 * index + 1].rating,
-                time: widget.recipes[2 * index + 1].time,
-                photoUrl: widget.recipes[2 * index + 1].photoUrl,
+                recipe: widget.recipes[2 * index + 1],
               ),
             ],
           ),

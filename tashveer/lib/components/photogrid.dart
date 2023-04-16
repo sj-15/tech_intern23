@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PhotoGrid extends StatefulWidget {
+  const PhotoGrid({super.key});
+
   @override
-  _PhotoGridState createState() => _PhotoGridState();
+  State createState() => _PhotoGridState();
 }
 
 class _PhotoGridState extends State<PhotoGrid> {
