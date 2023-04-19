@@ -36,7 +36,6 @@ class _RecipeDetailsState extends State<RecipeDetails> {
     if (recipeDetailsModel == null) {
       return const Center(child: CircularProgressIndicator());
     }
-    print(recipeDetailsModel!.nutritions);
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: LayoutBuilder(

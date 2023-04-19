@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rashoipedia/models/recipes.dart';
 
 class IngredientsList extends StatefulWidget {
   final List<Map<String, dynamic>> ingredients;
@@ -11,7 +10,6 @@ class IngredientsList extends StatefulWidget {
 }
 
 class _IngredientsListState extends State<IngredientsList> {
-  RecipeModel recipeModel = RecipeModel();
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
-import '../../models/recipes.dart';
 
 class InstructionsList extends StatefulWidget {
   final List<String> instructions;
@@ -12,8 +11,6 @@ class InstructionsList extends StatefulWidget {
 }
 
 class _InstructionsListState extends State<InstructionsList> {
-  RecipeModel recipeModel = RecipeModel();
-
   @override
   Widget build(BuildContext context) {
     return Column(
